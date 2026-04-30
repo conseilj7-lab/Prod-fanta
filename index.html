@@ -254,17 +254,6 @@ td.fac-reste[data-neg="false"]{color:var(--ok);font-weight:700}
 /* Divider */
 hr{border:none;border-top:var(--bd);margin:18px 0}
 
-/* iCloud sync */
-.icloud-ok{color:var(--ok);font-weight:600}
-.icloud-warn{color:var(--warn);font-weight:600}
-.icloud-history-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(212,208,200,.3);font-size:12px}
-.icloud-history-row:last-child{border-bottom:none}
-.sync-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.sync-ok{background:rgba(90,138,106,.12);color:var(--ok);border:1px solid rgba(90,138,106,.3)}
-.sync-warn{background:rgba(184,134,11,.12);color:var(--warn);border:1px solid rgba(184,134,11,.3)}
-.sync-none{background:var(--warm);color:var(--gray);border:1px solid var(--gray-l)}
-code{background:var(--warm);padding:1px 5px;border-radius:3px;font-size:11px;font-family:monospace;color:var(--coal)}
-
 /* Mobile */
 #mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:199}
 @media(max-width:768px){
@@ -334,12 +323,6 @@ code{background:var(--warm);padding:1px 5px;border-radius:3px;font-size:11px;fon
     <!-- ══ DASHBOARD ══ -->
     <div class="page active" id="page-dashboard">
       <div class="stats-grid" id="db-stats"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-        <button class="btn btn-primary btn-sm" onclick="go('reservations');setTimeout(modalReservation,80)">＋ Réservation</button>
-        <button class="btn btn-secondary btn-sm" onclick="go('clients');setTimeout(modalClient,80)">＋ Client</button>
-        <button class="btn btn-secondary btn-sm" onclick="go('devis');setTimeout(modalDevis,80)">＋ Devis</button>
-        <button class="btn btn-secondary btn-sm" onclick="go('factures');setTimeout(modalFacture,80)">＋ Facture</button>
-      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-bottom:18px">
         <div class="card">
           <div class="card-hdr"><div class="card-title">Prochains événements</div><button class="btn btn-sm btn-secondary" onclick="go('reservations')">Tout voir</button></div>
@@ -619,153 +602,29 @@ code{background:var(--warm);padding:1px 5px;border-radius:3px;font-size:11px;fon
         </div></div>
       </div>
       <div id="st-app" style="display:none">
-
-        <!-- Réglages application -->
-        <div class="card" style="margin-bottom:18px">
-          <div class="card-hdr"><div class="card-title">⚙️ Réglages de l'application</div></div>
-          <div class="card-body"><div class="grid">
-            <div class="fg"><label>Préfixe devis</label><input id="s-pdv" placeholder="DEV-"></div>
-            <div class="fg"><label>Préfixe facture</label><input id="s-pfac" placeholder="FAC-"></div>
-            <div class="fg"><label>Taux TVA (%)</label><select id="s-tva-rate"><option value="0">0 % — Non assujetti</option><option value="20">20 %</option><option value="10">10 %</option><option value="5.5">5,5 %</option></select></div>
-            <div class="fg"><label>Validité devis (jours)</label><input id="s-dv-days" type="number" placeholder="30"></div>
-            <div class="fg"><label>Acompte par défaut (%)</label><input id="s-acp" type="number" placeholder="30"></div>
-            <div class="fg"><label>Délai paiement facture (jours)</label><select id="s-pay"><option value="0">À réception</option><option value="15">15 jours</option><option value="30">30 jours</option><option value="45">45 jours</option><option value="60">60 jours</option></select></div>
-          </div>
-          <div class="alert al-warn" style="margin-top:16px">⚠️ En tant qu'EI sans TVA : mention obligatoire "TVA non applicable, art. 293 B du CGI" sur vos factures.</div>
-          <div style="margin-top:14px;display:flex;justify-content:flex-end">
-            <button class="btn btn-primary" onclick="saveSettings()">💾 Enregistrer</button>
-          </div>
-          </div>
+        <div class="card"><div class="card-hdr"><div class="card-title">Application</div></div>
+        <div class="card-body"><div class="grid">
+          <div class="fg"><label>Préfixe devis</label><input id="s-pdv" placeholder="DEV-"></div>
+          <div class="fg"><label>Préfixe facture</label><input id="s-pfac" placeholder="FAC-"></div>
+          <div class="fg"><label>Taux TVA (%)</label><select id="s-tva-rate"><option value="0">0 % — Non assujetti</option><option value="20">20 %</option><option value="10">10 %</option><option value="5.5">5,5 %</option></select></div>
+          <div class="fg"><label>Validité devis (jours)</label><input id="s-dv-days" type="number" placeholder="30"></div>
+          <div class="fg"><label>Acompte par défaut (%)</label><input id="s-acp" type="number" placeholder="30"></div>
+          <div class="fg"><label>Délai paiement facture (jours)</label><select id="s-pay"><option value="0">À réception</option><option value="15">15 jours</option><option value="30">30 jours</option><option value="45">45 jours</option><option value="60">60 jours</option></select></div>
         </div>
-
-        <!-- iCloud Sync -->
-        <div class="card" style="margin-bottom:18px" id="icloud-card">
-          <div class="card-hdr">
-            <div>
-              <div class="card-title">☁️ Sauvegarde & Synchronisation iCloud</div>
-              <div style="font-size:11px;color:var(--gray);margin-top:3px">Vos données entre iPhone et MacBook — toujours à jour</div>
-            </div>
-            <div id="icloud-status-badge"></div>
-          </div>
-          <div class="card-body">
-
-            <!-- État de la sauvegarde -->
-            <div id="icloud-state-panel" style="background:var(--warm);border-radius:var(--rs);padding:16px;margin-bottom:18px;border:var(--bd)">
-              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-                <div>
-                  <div id="icloud-last-save" style="font-size:13px;font-weight:500;color:var(--coal)">Aucune sauvegarde iCloud détectée</div>
-                  <div id="icloud-last-date" style="font-size:11px;color:var(--gray);margin-top:3px"></div>
-                  <div id="icloud-data-size" style="font-size:11px;color:var(--gray);margin-top:2px"></div>
-                </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-primary" onclick="iCloudSave()">☁️ Sauvegarder maintenant</button>
-                  <button class="btn btn-secondary" onclick="iCloudLoad()">⬇️ Charger depuis iCloud</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Auto-save toggle -->
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:var(--bd)">
-              <div>
-                <div style="font-size:13px;font-weight:500">Sauvegarde automatique</div>
-                <div style="font-size:11px;color:var(--gray);margin-top:2px">Sauvegarde toutes les 5 minutes + à chaque modification importante</div>
-              </div>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;text-transform:none;font-weight:400;letter-spacing:0;font-size:13px">
-                <input type="checkbox" id="icloud-autosave" onchange="toggleAutoSave()" style="width:18px;height:18px;accent-color:var(--gold)">
-                <span id="icloud-autosave-label">Désactivée</span>
-              </label>
-            </div>
-
-            <!-- Nom du fichier -->
-            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:var(--bd);flex-wrap:wrap">
-              <div style="flex:1;min-width:200px">
-                <div style="font-size:13px;font-weight:500">Nom du fichier iCloud</div>
-                <div style="font-size:11px;color:var(--gray);margin-top:2px">Dossier : iCloud Drive / Tim Event /</div>
-              </div>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input id="icloud-filename" value="tim-event-data.json" style="width:200px;font-size:12px" placeholder="tim-event-data.json">
-              </div>
-            </div>
-
-            <!-- Historique sauvegardes -->
-            <div style="padding:12px 0;border-bottom:var(--bd)">
-              <div style="font-size:13px;font-weight:500;margin-bottom:8px">Historique des 5 dernières sauvegardes</div>
-              <div id="icloud-history" style="font-size:12px;color:var(--gray)">Aucune sauvegarde enregistrée</div>
-            </div>
-
-            <!-- Instructions -->
-            <div style="padding-top:14px">
-              <div style="font-size:12px;font-weight:600;color:var(--coal);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Comment ça marche ?</div>
-              <div style="display:grid;gap:10px">
-
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0">1</div>
-                  <div>
-                    <div style="font-size:13px;font-weight:500">Cliquez "☁️ Sauvegarder maintenant"</div>
-                    <div style="font-size:11px;color:var(--gray);margin-top:2px">Télécharge un fichier <code>tim-event-data.json</code> sur votre appareil</div>
-                  </div>
-                </div>
-
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0">2</div>
-                  <div>
-                    <div style="font-size:13px;font-weight:500">Sur iPhone : déplacez le fichier dans iCloud Drive</div>
-                    <div style="font-size:11px;color:var(--gray);margin-top:2px">Ouvrez "Fichiers" → trouvez le fichier téléchargé → maintenez → "Déplacer" → iCloud Drive → créez un dossier "Tim Event"</div>
-                  </div>
-                </div>
-
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0">3</div>
-                  <div>
-                    <div style="font-size:13px;font-weight:500">Sur MacBook : l'accès est automatique</div>
-                    <div style="font-size:11px;color:var(--gray);margin-top:2px">Finder → iCloud Drive → Tim Event → glissez le fichier dans l'app via "⬇️ Charger depuis iCloud"</div>
-                  </div>
-                </div>
-
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <div style="width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--black);flex-shrink:0">4</div>
-                  <div>
-                    <div style="font-size:13px;font-weight:500">Routine recommandée</div>
-                    <div style="font-size:11px;color:var(--gray);margin-top:2px">Fin de journée : Sauvegarder → glisser dans iCloud. Début sur autre appareil : Charger depuis iCloud</div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Actions avancées -->
-            <div style="margin-top:16px;padding-top:14px;border-top:var(--bd);display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn btn-secondary btn-sm" onclick="exportData()">📤 Export JSON (sauvegarde locale)</button>
-              <button class="btn btn-secondary btn-sm" onclick="importData()">📥 Importer un fichier</button>
-              <button class="btn btn-secondary btn-sm" onclick="exportCSV()">📊 Export CSV complet</button>
-              <button class="btn btn-secondary btn-sm" onclick="showSyncGuide()">📖 Guide synchronisation</button>
-            </div>
-          </div>
+        <div class="alert al-warn" style="margin-top:16px">⚠️ En tant qu'EI sans TVA : mention obligatoire "TVA non applicable, art. 293 B du CGI" sur vos factures.</div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+          <button class="btn btn-secondary btn-sm" onclick="exportData()">📤 Exporter</button>
+          <button class="btn btn-secondary btn-sm" onclick="importData()">📥 Importer</button>
+          <button class="btn btn-primary" onclick="saveSettings()">💾 Enregistrer</button>
         </div>
-
-        <!-- Installer iPhone -->
-        <div class="card" style="margin-bottom:18px">
-          <div class="card-hdr"><div class="card-title">📱 Installer sur iPhone</div></div>
-          <div class="card-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div>
-                <p style="font-size:13px;line-height:2;color:var(--coal)">
-                  1. Ouvrez dans <strong>Safari</strong><br>
-                  2. Bouton <strong>Partager ↑</strong><br>
-                  3. <strong>"Sur l'écran d'accueil"</strong><br>
-                  4. <strong>Ajouter</strong>
-                </p>
-              </div>
-              <div style="background:var(--warm);border-radius:var(--rs);padding:14px;border:var(--bd)">
-                <div style="font-size:11px;font-weight:600;color:var(--coal);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Important</div>
-                <p style="font-size:12px;line-height:1.7;color:var(--gray)">
-                  Utilisez <strong>toujours le même navigateur</strong> sur chaque appareil pour conserver vos données localStorage. La sauvegarde iCloud est votre filet de sécurité en cas de changement d'appareil.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        </div></div>
+        <div class="card" style="margin-top:18px"><div class="card-hdr"><div class="card-title">📱 Installer sur iPhone</div></div>
+        <div class="card-body"><p style="font-size:13px;line-height:1.9;color:var(--coal)">
+          1. Ouvrez cette page dans <strong>Safari</strong><br>
+          2. Bouton <strong>Partager ↑</strong><br>
+          3. <strong>"Sur l'écran d'accueil"</strong><br>
+          4. <strong>Ajouter</strong> — l'icône apparaît sur votre accueil
+        </p></div></div>
       </div>
     </div>
 
@@ -992,17 +851,7 @@ document.addEventListener('keydown', e=>{
 // ════════════════════════════════════════════════════════
 function today(){ return new Date().toISOString().slice(0,10); }
 function addDays(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return dt.toISOString().slice(0,10); }
-function fmtDate(d){
-  if(!d)return '—';
-  try{
-    // Parser YYYY-MM-DD manuellement pour éviter décalage UTC
-    if(/^\d{4}-\d{2}-\d{2}$/.test(d)){
-      const [y,m,dd]=d.split('-').map(Number);
-      return new Date(y,m-1,dd).toLocaleDateString('fr-FR');
-    }
-    return new Date(d).toLocaleDateString('fr-FR');
-  }catch{ return d; }
-}
+function fmtDate(d){ if(!d)return '—'; try{ return new Date(d).toLocaleDateString('fr-FR'); }catch{ return d; } }
 function fmtAmt(n){ const v=num(n,0); return (isNaN(v)?0:v).toFixed(2).replace('.',',') + ' €'; }
 function uid(){ return Date.now() + Math.floor(Math.random()*1000); }
 function logAct(msg, type='general', detail=''){
@@ -1039,7 +888,7 @@ function renderDashboard(){
     <div class="stat"><div class="lbl">CA ce mois</div><div class="val">${caMonth.toFixed(0)} €</div><div class="sub">Facturé</div><div class="bg">💶</div></div>
     <div class="stat"><div class="lbl">CA total</div><div class="val">${caTotal.toFixed(0)} €</div><div class="sub">Depuis le début</div><div class="bg">📈</div></div>
     <div class="stat"><div class="lbl">Total encaissé</div><div class="val">${encTotal.toFixed(0)} €</div><div class="sub">Paiements reçus</div><div class="bg">✅</div></div>
-    <div class="stat" style="${dette>0?'border-color:rgba(138,74,74,.3)':''}"><div class="lbl" style="${dette>0?'color:var(--err)':''}">Dettes restantes</div><div class="val" style="${dette>0?'color:var(--err)':''}">${dette.toFixed(0)} €</div><div class="sub">${db.factures.filter(f=>num(f.montantHT)-totalEnc(f.id)>0.01).length} facture(s)</div><div class="bg">📋</div></div>
+    <div class="stat" class="${dette>0?'stat-err-border':''}"><div class="lbl" class="${dette>0?'val-err':''}">Dettes restantes</div><div class="val" class="${dette>0?'val-err':''}">${dette.toFixed(0)} €</div><div class="sub">${db.factures.filter(f=>num(f.montantHT)-totalEnc(f.id)>0.01).length} facture(s)</div><div class="bg">📋</div></div>
     <div class="stat"><div class="lbl">Réservations</div><div class="val">${resActif}</div><div class="sub">En cours</div><div class="bg">🎪</div></div>
     ${stAlerts?`<div class="stat" style="border-color:rgba(138,74,74,.3)"><div class="lbl" style="color:var(--err)">Alertes stock</div><div class="val" style="color:var(--err)">${stAlerts}</div><div class="sub">Articles bas</div><div class="bg">⚠️</div></div>`:''}
   `;
@@ -1129,7 +978,7 @@ function calDay(d,m,y){
 // ════════════════════════════════════════════════════════
 function renderClients(){
   const q=(document.getElementById('cl-search').value||'').toLowerCase();
-  const list=db.clients.filter(c=>!q||(c.nom+c.prenom+c.email+c.tel+c.ville).toLowerCase().includes(q)).sort((a,b)=>(a.nom+a.prenom).localeCompare(b.nom+b.prenom,'fr'));
+  const list=db.clients.filter(c=>!q||(c.nom+c.prenom+c.email+c.tel+c.ville).toLowerCase().includes(q));
   const tb=document.getElementById('cl-tbody');
   const cnt=document.getElementById('cl-count'); if(cnt)cnt.textContent=list.length+' client'+(list.length>1?'s':'');
   if(!list.length){ tb.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:36px;color:var(--gray)">Aucun client</td></tr>`; return; }
@@ -1345,7 +1194,7 @@ function renderReservations(){
     <td><strong>${esc(r.ref||'')}</strong></td>
     <td>${clientName(r.clientId)||'<span style="color:var(--gray)">—</span>'}</td>
     <td>${esc(r.nomEv)}</td>
-    <td style="color:${new Date(r.dateEv)<new Date()&&r.statut!=='terminée'&&r.statut!=='annulée'?'var(--warn)':'inherit'}">${fmtDate(r.dateEv)}</td>
+    <td>${fmtDate(r.dateEv)}</td>
     <td><strong>${fmtAmt(r.total)}</strong></td>
     <td><span class="badge ${stBadge(r.statut)}" style="cursor:pointer" onclick="quickStatutRes(${r.id})" title="Changer statut">${esc(r.statut)} ✎</span></td>
     <td><div style="display:flex;gap:5px;flex-wrap:wrap">
@@ -1473,20 +1322,14 @@ function saveRes(id){
     statut:document.getElementById('r-statut').value,notes:document.getElementById('r-notes').value.trim(),items,total};
   if(id){
     const old=db.reservations.find(r=>r.id===id);
-    // Ne libérer le stock que si la résa n'était pas annulée
-    if(old?.statut!=='annulée'){
-      (old?.items||[]).forEach(oi=>{const s=db.stock.find(x=>x.id===oi.stockId);if(s)s.reserve=Math.max(0,s.reserve-oi.qty);});
-    }
+    (old?.items||[]).forEach(oi=>{const s=db.stock.find(x=>x.id===oi.stockId);if(s)s.reserve=Math.max(0,s.reserve-oi.qty);});
     const i=db.reservations.findIndex(r=>r.id===id); db.reservations[i]={...db.reservations[i],...d};
     logAct(`Réservation modifiée : ${nomEv}`,'reservation',`ID:${id}, Client:${clientId}`);
   } else {
     d.id=uid(); d.ref='RES-'+String(db.reservations.length+1).padStart(4,'0');
     db.reservations.push(d); logAct(`Nouvelle réservation : ${nomEv}`,'reservation',`ID:${d.id}, Client:${clientId}`);
   }
-  // Ne réserver que si le statut n'est pas annulée
-  if(d.statut!=='annulée'){
-    items.forEach(item=>{const s=db.stock.find(x=>x.id===item.stockId);if(s)s.reserve=(s.reserve||0)+item.qty;});
-  }
+  items.forEach(item=>{const s=db.stock.find(x=>x.id===item.stockId);if(s)s.reserve=(s.reserve||0)+item.qty;});
   saveDB(); closeModal(); renderReservations(); toast('Réservation enregistrée','ok');
 }
 function viewRes(id){
@@ -1507,11 +1350,10 @@ function viewRes(id){
       <div style="display:flex;justify-content:flex-end;margin-top:10px"><strong style="font-size:15px">Total : ${fmtAmt(r.total)}</strong></div>
       ${r.notes?`<hr><div style="font-size:13px">${esc(r.notes)}</div>`:''}
     </div>
-    <div class="mo-foot" style="flex-wrap:wrap;gap:7px">
+    <div class="mo-foot">
       <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-      <button class="btn btn-secondary btn-sm" onclick="closeModal();dupRes(${id})" title="Dupliquer">⧉</button>
       <button class="btn btn-secondary" onclick="closeModal();modalDevisFromRes(${id})">📄 Devis</button>
-      <button class="btn btn-secondary" onclick="closeModal();go('factures');setTimeout(()=>modalFactureFromRes(${id}),120)">🧾 Facture</button>
+      <button class="btn btn-secondary" onclick="closeModal();go('factures');setTimeout(()=>modalFactureFromRes(${id}),100)">🧾 Facture</button>
       <button class="btn btn-primary" onclick="closeModal();modalReservation(${id})">✏️ Modifier</button>
     </div>`);
 }
@@ -1528,47 +1370,8 @@ function quickStatutRes(id){
 }
 function setStatutRes(id, statut){
   const r=db.reservations.find(x=>x.id===id); if(!r)return;
-  const oldStatut=r.statut;
-  r.statut=statut;
-  // Si annulée → libérer le stock
-  if(statut==='annulée'&&oldStatut!=='annulée'){
-    (r.items||[]).forEach(item=>{const s=db.stock.find(x=>x.id===item.stockId);if(s)s.reserve=Math.max(0,s.reserve-item.qty);});
-    toast('Réservation annulée — stock libéré','ok');
-  }
-  // Si on re-confirme une ancienne annulée → re-réserver
-  if(oldStatut==='annulée'&&statut!=='annulée'){
-    let ok=true;
-    (r.items||[]).forEach(item=>{const s=db.stock.find(x=>x.id===item.stockId);if(s&&s.total-s.reserve<item.qty)ok=false;});
-    if(!ok){ toast('Stock insuffisant pour re-confirmer','err'); r.statut=oldStatut; return; }
-    (r.items||[]).forEach(item=>{const s=db.stock.find(x=>x.id===item.stockId);if(s)s.reserve=(s.reserve||0)+item.qty;});
-  }
-  saveDB(); closeModal(); renderReservations();
+  r.statut=statut; saveDB(); closeModal(); renderReservations();
   toast(`Statut mis à jour : ${statut}`,'ok'); logAct(`Statut réservation : ${r.nomEv} → ${statut}`,'reservation',`ID:${id}`);
-}
-function dupRes(id){
-  const r=db.reservations.find(x=>x.id===id); if(!r)return;
-  const newR={
-    ...JSON.parse(JSON.stringify(r)),
-    id:uid(),
-    ref:'RES-'+String(db.reservations.length+1).padStart(4,'0'),
-    statut:'confirmée',
-    dateEv: addDays(today(),7), // proposer J+7
-    items: r.items.map(i=>({...i}))
-  };
-  // Re-réserver le stock pour la copie
-  let canDup = true;
-  newR.items.forEach(item=>{
-    const s=db.stock.find(x=>x.id===item.stockId);
-    if(s && s.total-s.reserve-item.qty < 0) canDup=false;
-  });
-  if(!canDup){ toast('Stock insuffisant pour dupliquer','err'); return; }
-  newR.items.forEach(item=>{
-    const s=db.stock.find(x=>x.id===item.stockId);
-    if(s) s.reserve=(s.reserve||0)+item.qty;
-  });
-  db.reservations.push(newR);
-  logAct(`Réservation dupliquée : ${newR.ref} depuis ${r.ref}`,'reservation',`Client:${clientName(r.clientId)}`);
-  saveDB(); renderReservations(); toast(`Réservation dupliquée : ${newR.ref}`,'ok');
 }
 function delRes(id){
   if(!confirm('Supprimer cette réservation ?'))return;
@@ -1587,10 +1390,7 @@ let dvLineIdx=0;
 function renderDevis(){
   const tb=document.getElementById('dv-tbody');
   if(!db.devis.length){ tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--gray)">Aucun devis</td></tr>`; return; }
-  // Ligne totaux
-  const dvTotal=db.devis.reduce((s,d)=>s+num(d.montantHT),0);
-  const dvFooter=`<tr style="background:var(--warm);font-weight:600"><td colspan="4" style="text-align:right;padding:10px 14px;font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:1px">Total ${db.devis.length} devis</td><td style="padding:10px 14px"><strong>${fmtAmt(dvTotal)}</strong></td><td colspan="2"></td></tr>`;
-  tb.innerHTML=[...db.devis].sort((a,b)=>new Date(b.dateCreation)-new Date(a.dateCreation)).map(d=>`<tr>
+  tb.innerHTML=db.devis.map(d=>`<tr>
     <td><strong>${esc(d.ref)}</strong></td>
     <td>${clientName(d.clientId)}</td>
     <td>${esc(d.nomEv||'')}</td>
@@ -1783,12 +1583,7 @@ function dupDv(id){
   const copy={...JSON.parse(JSON.stringify(src)),id:uid(),ref,dateCreation:today(),statut:'en attente'};
   db.devis.push(copy); saveDB(); renderDevis(); toast(`Devis dupliqué : ${ref}`,'ok');
 }
-function dvToFac(dvId){
-  closeModal();
-  go('factures');
-  // Attendre que renderFactures finisse puis ouvrir le modal
-  setTimeout(()=>modalFacture(dvId), 80);
-}
+function dvToFac(dvId){ closeModal(); modalFacture(dvId); go('factures'); }
 function modalDevisFromRes(resId){ go('devis'); modalDevis(resId); }
 
 // ════════════════════════════════════════════════════════
@@ -1798,7 +1593,7 @@ let facLineIdx=0;
 function renderFactures(){
   const tb=document.getElementById('fac-tbody');
   if(!db.factures.length){ tb.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:36px;color:var(--gray)">Aucune facture</td></tr>`; return; }
-  tb.innerHTML=[...db.factures].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(f=>{
+  tb.innerHTML=db.factures.map(f=>{
     const enc=totalEnc(f.id), reste=num(f.montantHT)-enc;
     return `<tr>
       <td><strong>${esc(f.numero)}</strong></td>
@@ -1861,7 +1656,7 @@ function modalFacture(dvId, prefillRes){
       <button class="btn btn-primary" onclick="saveFac(${dvId||'null'})">💾 Créer la facture</button>
     </div>`, true);
   const prefillLines=resData?.items||dv?.lignes||[];
-  prefillLines.forEach(l=>addFacLineWith({desc:l.desc||l.nom||l.description||'',qty:l.qty||1,prix:l.prixUnit||l.prix||0}));
+  prefillLines.forEach(l=>addFacLineWith({desc:l.desc||l.nom||'',qty:l.qty,prix:l.prixUnit||l.prix||0}));
   if(!prefillLines.length) addFacLine();
   calcFacTotal();
 }
@@ -2013,7 +1808,7 @@ function previewDoc(type, id){
   const tvaAmt=montantHT*tvaRate, ttc=montantHT+tvaAmt;
   const acp=num(doc.acompte), reste=num(doc.montantHT)-totalEnc(doc.id);
   const lignes=type==='acompte'
-    ?(acp>0?[{desc:`Acompte sur ${doc.nomEv||'événement'}`,qty:1,prixUnit:acp,total:acp}]:(doc.lignes||[]))
+    ?[{desc:`Acompte — ${doc.nomEv||'événement'}`,qty:1,prixUnit:acp,total:acp}]
     :(doc.lignes||[]);
 
   const html=`<div class="doc-inv">
@@ -2142,7 +1937,7 @@ function renderEnc(){
     const pct=du>0?Math.min(100,Math.round(enc/du*100)):0;
     const st=encStatut(f);
     const bCol=st==='soldee'?'var(--ok)':st==='retard'?'var(--err)':st==='partielle'?'var(--warn)':'var(--err)';
-    const jours=f.echeance?Math.round((new Date(f.echeance+' 23:59')-new Date())/86400000):null;
+    const jours=f.echeance?Math.round((new Date(f.echeance)-new Date())/86400000):null;
     const jourstxt=jours!==null?(jours<0?`<span class="late-flag">⏰ ${Math.abs(jours)}j retard</span>`:`<span style="font-size:10px;color:var(--gray)">${jours}j restants</span>`):'';
     return `<div class="debt-row">
       <div>
@@ -2212,14 +2007,8 @@ function saveQuickClient(){
   db.clients.push(c); saveDB(); logAct(`Client ajouté : ${prenom} ${nom}`,'client',`ID:${c.id}`);
   toast(`Client ${prenom} ${nom} créé`,'ok');
   // Restore previous modal then inject new client into all selects
-  // Restaurer le modal précédent
-  if(window._prevModalHTML){
-    document.getElementById('modal-root').innerHTML=window._prevModalHTML;
-    document.getElementById('mo-overlay')?.addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
-    window._prevModalHTML=null;
-  } else {
-    closeModal();
-  }
+  document.getElementById('modal-root').innerHTML=window._prevModalHTML||'';
+  window._prevModalHTML=null;
   ['r-client','dv-client','f-client'].forEach(sid=>{
     const sel=document.getElementById(sid);
     if(sel){ const opt=document.createElement('option'); opt.value=c.id; opt.textContent=`${c.prenom} ${c.nom}`; sel.appendChild(opt); sel.value=c.id; }
@@ -2359,7 +2148,6 @@ const AUDIT_PER_PAGE = 50;
 function renderAudit(){
   if(!db.audit) db.audit=[];
   const q=(document.getElementById('audit-search')?.value||'').toLowerCase();
-  auditPage=0; // reset page on filter change
   const typeFilter=document.getElementById('audit-filt-type')?.value||'';
   const typeIcons={client:'👥',reservation:'📋',stock:'📦',devis:'📄',facture:'🧾',paiement:'💳',suppression:'🗑',settings:'⚙️',general:'📝'};
 
@@ -2504,7 +2292,6 @@ function renderSettings(){
   };
   Object.entries(fields).forEach(([id,val])=>{ const el=document.getElementById(id); if(el)el.value=val||''; });
   renderTarifs();
-  setTimeout(updateICloudUI, 50);
 }
 
 function sTab(name, el){
@@ -2518,7 +2305,6 @@ function sTab(name, el){
     el.classList.add('active');
   }
   if(name==='tarifs') renderTarifs();
-  if(name==='app') setTimeout(updateICloudUI, 50);
 }
 
 function saveSettings(){
@@ -2577,346 +2363,6 @@ function saveTarifs(){
   saveDB(); toast('Tarifs enregistrés','ok');
 }
 
-
-// ════════════════════════════════════════════════════════
-//  SYSTÈME SAUVEGARDE iCLOUD
-//  Stratégie : download/upload fichier JSON vers iCloud Drive
-//  via l'app Fichiers sur iPhone ou Finder sur MacBook
-// ════════════════════════════════════════════════════════
-
-const ICLOUD_STORAGE_KEY = 'tim_icloud_meta';
-let autoSaveInterval = null;
-
-function getICloudMeta(){
-  try{ return JSON.parse(localStorage.getItem(ICLOUD_STORAGE_KEY)||'{}'); }catch{ return {}; }
-}
-function setICloudMeta(data){
-  try{ localStorage.setItem(ICLOUD_STORAGE_KEY, JSON.stringify(data)); }catch{}
-}
-
-// ── Sauvegarde : télécharge le JSON (à placer manuellement dans iCloud Drive)
-function iCloudSave(){
-  const filename = (document.getElementById('icloud-filename')?.value||'tim-event-data').trim().replace(/[^a-z0-9_\-]/gi,'_') || 'tim-event-data';
-  const fn2=filename.replace(/[^a-z0-9_.]/gi,'_')||'tim-event-data'; const fullname = fn2.endsWith('.json') ? fn2 : fn2 + '.json';
-
-  // Ajouter métadonnées de sauvegarde
-  const savePayload = {
-    ...db,
-    _meta: {
-      savedAt: new Date().toISOString(),
-      savedFrom: /iPhone|iPad/.test(navigator.userAgent) ? 'iPhone' : 'MacBook',
-      version: '1.0',
-      recordCounts: {
-        clients: db.clients.length,
-        reservations: db.reservations.length,
-        stock: db.stock.length,
-        devis: db.devis.length,
-        factures: db.factures.length,
-        paiements: db.paiements.length,
-      }
-    }
-  };
-
-  const blob = new Blob([JSON.stringify(savePayload, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fullname;
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(url), 1000);
-
-  // Enregistrer métadonnées localement
-  const meta = getICloudMeta();
-  const entry = {
-    date: new Date().toISOString(),
-    filename: fullname,
-    device: /iPhone|iPad/.test(navigator.userAgent) ? 'iPhone' : 'MacBook',
-    counts: savePayload._meta.recordCounts
-  };
-  meta.lastSave = entry;
-  meta.history = [entry, ...(meta.history||[])].slice(0,5);
-  setICloudMeta(meta);
-
-  logAct('Sauvegarde iCloud effectuée','settings',`Fichier:${fullname}, ${db.clients.length} clients, ${db.factures.length} factures`);
-  saveDB();
-  updateICloudUI();
-  toast(`☁️ Sauvegardé — déplacez "${fullname}" dans iCloud Drive / Tim Event`, 'ok');
-
-  // Afficher guide contextuel sur iPhone
-  if(/iPhone|iPad/.test(navigator.userAgent)){
-    setTimeout(()=>{
-      showModal(`
-        <div class="mo-hdr"><h3>☁️ Fichier téléchargé — Étape suivante</h3><button class="mo-close" onclick="closeModal()">✕</button></div>
-        <div class="mo-body">
-          <div class="alert al-ok" style="margin-bottom:16px">✅ <strong>${fullname}</strong> a été téléchargé sur votre iPhone.</div>
-          <div style="font-size:13px;line-height:2.2;color:var(--coal)">
-            <strong>Pour le mettre dans iCloud Drive :</strong><br>
-            1. Ouvrez l'app <strong>Fichiers</strong> 📁 sur iPhone<br>
-            2. Allez dans <strong>Téléchargements</strong> (ou Récents)<br>
-            3. Maintenez appuyé sur <code>${fullname}</code><br>
-            4. Appuyez <strong>"Déplacer"</strong><br>
-            5. Choisissez <strong>iCloud Drive</strong><br>
-            6. Créez un dossier <strong>"Tim Event"</strong> si absent<br>
-            7. Appuyez <strong>Copier</strong>
-          </div>
-          <div class="alert al-info" style="margin-top:14px">ℹ Sur MacBook : le fichier apparaît automatiquement dans Finder → iCloud Drive → Tim Event.</div>
-        </div>
-        <div class="mo-foot">
-          <button class="btn btn-primary" onclick="closeModal()">Compris ✓</button>
-        </div>`);
-    }, 800);
-  }
-}
-
-// ── Chargement : importe un fichier depuis iCloud Drive
-function iCloudLoad(){
-  showModal(`
-    <div class="mo-hdr"><h3>⬇️ Charger depuis iCloud Drive</h3><button class="mo-close" onclick="closeModal()">✕</button></div>
-    <div class="mo-body">
-      <div class="alert al-warn" style="margin-bottom:16px">⚠️ Cette action <strong>remplacera toutes vos données actuelles</strong> par celles du fichier sélectionné. Effectuez d'abord une sauvegarde si nécessaire.</div>
-
-      <div style="font-size:13px;line-height:2;color:var(--coal);margin-bottom:16px">
-        <strong>Sur iPhone :</strong> Appuyez sur le bouton ci-dessous → l'app Fichiers s'ouvre → naviguez vers iCloud Drive → Tim Event → sélectionnez <code>tim-event-data.json</code><br><br>
-        <strong>Sur MacBook :</strong> Finder → iCloud Drive → Tim Event → glissez le fichier dans la sélection
-      </div>
-
-      <div style="text-align:center;padding:20px;background:var(--warm);border-radius:var(--rs);border:2px dashed var(--gold)">
-        <div style="font-size:32px;margin-bottom:8px">📁</div>
-        <div style="font-size:13px;color:var(--gray);margin-bottom:14px">Sélectionnez votre fichier de sauvegarde</div>
-        <button class="btn btn-primary" onclick="triggerFileSelect()">📂 Sélectionner le fichier iCloud</button>
-        <input type="file" id="icloud-file-input" accept=".json" style="display:none" onchange="iCloudLoadFile(this)">
-      </div>
-    </div>
-    <div class="mo-foot">
-      <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
-    </div>`);
-}
-
-function triggerFileSelect(){
-  document.getElementById('icloud-file-input')?.click();
-}
-
-function iCloudLoadFile(input){
-  const file = input.files[0]; if(!file)return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try{
-      const data = JSON.parse(ev.target.result);
-      if(!data.clients||!data.factures){ toast('Fichier invalide — pas une sauvegarde Tim Event','err'); return; }
-
-      const meta = data._meta || {};
-      const counts = meta.recordCounts || {};
-      const savedAt = meta.savedAt ? new Date(meta.savedAt).toLocaleString('fr-FR') : 'date inconnue';
-      const device = meta.savedFrom || 'appareil inconnu';
-
-      closeModal();
-      showModal(`
-        <div class="mo-hdr"><h3>Confirmer le chargement</h3><button class="mo-close" onclick="closeModal()">✕</button></div>
-        <div class="mo-body">
-          <div class="alert al-info" style="margin-bottom:16px">Sauvegarde du <strong>${savedAt}</strong> depuis <strong>${device}</strong></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-            ${Object.entries({Clients:data.clients?.length||0,Réservations:data.reservations?.length||0,Devis:data.devis?.length||0,Factures:data.factures?.length||0,Paiements:data.paiements?.length||0,Articles:data.stock?.length||0}).map(([k,v])=>
-              `<div style="background:var(--warm);border-radius:var(--rs);padding:10px;text-align:center;border:var(--bd)">
-                <div style="font-size:11px;color:var(--gray)">${k}</div>
-                <div style="font-size:20px;font-weight:600;font-family:'Cormorant Garamond',serif">${v}</div>
-              </div>`).join('')}
-          </div>
-          <div class="alert al-warn">⚠️ Vos données actuelles seront remplacées. Cette action est irréversible.</div>
-        </div>
-        <div class="mo-foot">
-          <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
-          <button class="btn btn-primary" onclick="applyICloudLoad()">✅ Charger ces données</button>
-        </div>`);
-    }catch(e){ toast('Erreur lecture fichier: '+e.message,'err'); }
-  };
-  reader.readAsText(file);
-}
-
-function applyICloudLoad(){
-  try{
-    const data = window._pendingImport;
-    if(!data){ toast('Aucune donnée en attente','err'); return; }
-    delete data._meta;
-    if(!data.paiements) data.paiements = [];
-    if(!data.audit) data.audit = [];
-    if(!data.activity) data.activity = [];
-    if(!data.counters) data.counters = {dv:1,fac:1};
-    db = data;
-    const def = DEFAULT_DB().settings;
-    Object.keys(def).forEach(k=>{ if(db.settings[k]===undefined) db.settings[k]=def[k]; });
-    saveDB();
-    logAct('Données chargées depuis iCloud','settings','Restauration complète');
-    window._pendingImport = null;
-    closeModal();
-    toast('✅ Données iCloud chargées avec succès !','ok');
-    setTimeout(()=>location.reload(), 800);
-  }catch(e){ toast('Erreur chargement: '+e.message,'err'); }
-}
-
-// ── Auto-save
-function toggleAutoSave(){
-  const cb = document.getElementById('icloud-autosave');
-  const label = document.getElementById('icloud-autosave-label');
-  if(cb?.checked){
-    if(label) label.textContent = 'Activée';
-    startAutoSave();
-    const meta = getICloudMeta(); meta.autoSave = true; setICloudMeta(meta);
-    toast('Sauvegarde automatique activée (toutes les 5 min)','ok');
-  } else {
-    if(label) label.textContent = 'Désactivée';
-    stopAutoSave();
-    const meta = getICloudMeta(); meta.autoSave = false; setICloudMeta(meta);
-    toast('Sauvegarde automatique désactivée');
-  }
-}
-
-function startAutoSave(){
-  stopAutoSave();
-  autoSaveInterval = setInterval(()=>{
-    iCloudSave();
-  }, 5 * 60 * 1000); // 5 minutes
-}
-
-function stopAutoSave(){
-  if(autoSaveInterval){ clearInterval(autoSaveInterval); autoSaveInterval=null; }
-}
-
-// ── Export CSV complet de toutes les données
-function exportCSV(){
-  const sheets = [];
-
-  // Factures
-  const facHeaders = ['N° Facture','Client','Événement','Date','Échéance','Montant HT','Acompte','Encaissé','Reste','Statut'];
-  const facRows = db.factures.map(f=>{
-    const c = db.clients.find(x=>x.id===f.clientId);
-    const enc = totalEnc(f.id);
-    return [f.numero, c?c.prenom+' '+c.nom:'—', f.nomEv||'', f.date||'', f.echeance||'',
-            (f.montantHT||0).toFixed(2), (f.acompte||0).toFixed(2), enc.toFixed(2),
-            Math.max(0,num(f.montantHT)-enc).toFixed(2), f.statut||''];
-  });
-  sheets.push({name:'Factures',headers:facHeaders,rows:facRows});
-
-  // Clients
-  const cliHeaders = ['Prénom','Nom','Email','Téléphone','Adresse','CP','Ville'];
-  const cliRows = db.clients.map(c=>[c.prenom,c.nom,c.email,c.tel,c.adresse,c.cp,c.ville]);
-  sheets.push({name:'Clients',headers:cliHeaders,rows:cliRows});
-
-  // Paiements
-  const paiHeaders = ['Date','Facture','Client','Montant','Mode','Référence','Note'];
-  const paiRows = db.paiements.map(p=>{
-    const f = db.factures.find(x=>x.id===p.factureId);
-    const c = f?db.clients.find(x=>x.id===f.clientId):null;
-    return [p.date||'', f?f.numero:'—', c?c.prenom+' '+c.nom:'—', (p.montant||0).toFixed(2), p.mode||'', p.ref||'', p.note||''];
-  });
-  sheets.push({name:'Paiements',headers:paiHeaders,rows:paiRows});
-
-  // Build CSV (one sheet = one file pour simplicité)
-  let csv = '';
-  sheets.forEach(sheet=>{
-    csv += `\n=== ${sheet.name} ===\n`;
-    csv += [sheet.headers,...sheet.rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
-    csv += '\n';
-  });
-
-  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download = `tim-event-export-${today()}.csv`; a.click();
-  toast('Export CSV complet téléchargé','ok');
-}
-
-// ── Guide de synchronisation
-function showSyncGuide(){
-  showModal(`
-    <div class="mo-hdr"><h3>📖 Guide complet de synchronisation</h3><button class="mo-close" onclick="closeModal()">✕</button></div>
-    <div class="mo-body">
-
-      <div style="font-weight:600;font-size:14px;color:var(--gold-d);margin-bottom:12px">☁️ Synchronisation iPhone ↔ MacBook via iCloud</div>
-
-      <div class="alert al-info" style="margin-bottom:16px">iCloud Drive synchronise automatiquement les fichiers entre tous vos appareils Apple connectés au même compte.</div>
-
-      <div style="margin-bottom:16px">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:8px">SCENARIO : Saisie sur iPhone, consultation sur MacBook</div>
-        <div style="font-size:13px;line-height:2.2;color:var(--coal)">
-          <strong>Sur iPhone (après votre travail) :</strong><br>
-          1. Tim Event → Paramètres → Application<br>
-          2. Cliquer <strong>☁️ Sauvegarder maintenant</strong><br>
-          3. App Fichiers → Téléchargements → Maintenir <code>tim-event-data.json</code> → Déplacer → iCloud Drive → Tim Event<br><br>
-          <strong>Sur MacBook (pour consulter) :</strong><br>
-          4. Finder → iCloud Drive → Tim Event → le fichier est là<br>
-          5. Tim Event dans Safari → Paramètres → ⬇️ Charger depuis iCloud<br>
-          6. Sélectionnez le fichier depuis iCloud Drive
-        </div>
-      </div>
-
-      <div style="margin-bottom:16px">
-        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:8px">PRÉVENTION DE PERTE DE DONNÉES</div>
-        <div style="font-size:13px;line-height:1.9;color:var(--coal)">
-          • <strong>Ne jamais vider le cache Safari</strong> (efface le localStorage)<br>
-          • <strong>Sauvegarde iCloud</strong> avant tout changement d'iPhone<br>
-          • <strong>Export JSON</strong> quotidien dans un dossier iCloud pour historique<br>
-          • <strong>Export CSV</strong> mensuel pour comptabilité / archivage
-        </div>
-      </div>
-
-      <div class="alert al-ok">✅ Bonne pratique : fin de chaque journée → Sauvegarder → déplacer dans iCloud. En cas de problème → Charger depuis iCloud → toutes vos données sont restaurées en 30 secondes.</div>
-
-    </div>
-    <div class="mo-foot"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`);
-}
-
-// ── Mise à jour de l'UI iCloud
-function updateICloudUI(){
-  const panel = document.getElementById('icloud-state-panel');
-  const badge = document.getElementById('icloud-status-badge');
-  const histEl = document.getElementById('icloud-history');
-  const autoSaveCb = document.getElementById('icloud-autosave');
-  const autoSaveLbl = document.getElementById('icloud-autosave-label');
-  if(!panel) return;
-
-  const meta = getICloudMeta();
-  const last = meta.lastSave;
-  const dbSize = Math.round(JSON.stringify(db).length / 1024);
-
-  if(last){
-    const lastDate = new Date(last.date);
-    const diffMin = Math.round((Date.now()-lastDate.getTime())/60000);
-    const diffTxt = diffMin < 1 ? 'À l'instant' : diffMin < 60 ? `Il y a ${diffMin} min` : diffMin < 1440 ? `Il y a ${Math.round(diffMin/60)}h` : `Il y a ${Math.round(diffMin/1440)}j`;
-    const diffOk = diffMin < 60;
-
-    document.getElementById('icloud-last-save').textContent = `Dernière sauvegarde : ${last.filename||'tim-event-data.json'}`;
-    document.getElementById('icloud-last-date').textContent = `${lastDate.toLocaleString('fr-FR')} — ${diffTxt} — depuis ${last.device||'?'}`;
-    document.getElementById('icloud-data-size').textContent = `Taille : ~${dbSize} Ko · ${db.clients.length} clients · ${db.factures.length} factures · ${db.reservations.length} réservations`;
-
-    if(badge) badge.innerHTML = `<span class="sync-badge ${diffOk?'sync-ok':'sync-warn'}">${diffOk?'☁️ À jour':'⚠️ Ancienne sauvegarde'}</span>`;
-  } else {
-    document.getElementById('icloud-last-save').textContent = 'Aucune sauvegarde iCloud détectée';
-    document.getElementById('icloud-last-date').textContent = '';
-    document.getElementById('icloud-data-size').textContent = `Taille actuelle : ~${dbSize} Ko`;
-    if(badge) badge.innerHTML = `<span class="sync-badge sync-none">Pas de sauvegarde</span>`;
-  }
-
-  // Historique
-  if(histEl && meta.history?.length){
-    histEl.innerHTML = meta.history.map(h=>`
-      <div class="icloud-history-row">
-        <span>${new Date(h.date).toLocaleString('fr-FR')}</span>
-        <span style="color:var(--gray)">${h.device||'?'}</span>
-        <span style="color:var(--ok)">${h.filename||''}</span>
-        <span>${h.counts?Object.values(h.counts).reduce((a,b)=>a+b,0)+' entrées':''}</span>
-      </div>`).join('');
-  } else if(histEl){
-    histEl.innerHTML = '<span style="color:var(--gray);font-size:12px">Aucune sauvegarde enregistrée</span>';
-  }
-
-  // Auto-save state
-  if(autoSaveCb && meta.autoSave){
-    autoSaveCb.checked = true;
-    if(autoSaveLbl) autoSaveLbl.textContent = 'Activée';
-    if(!autoSaveInterval) startAutoSave();
-  }
-}
-
-
 function exportData(){
   const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
@@ -2966,9 +2412,6 @@ function init(){
   document.getElementById('co-siret').textContent=db.settings.siret?'SIRET : '+db.settings.siret:'SIRET : —';
   // Fermer PDF avec bouton
   document.getElementById('pdf-close').addEventListener('click', closePDF);
-  // Restore auto-save if was active
-  const _meta = getICloudMeta();
-  if(_meta.autoSave) startAutoSave();
   renderDashboard();
 }
 
